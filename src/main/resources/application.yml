@@ -9,7 +9,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: create # 자동으로 테이블 생성 옵션, 개발 초기 단계에 사용
       use-new-id-generator-mappings: false
     show-sql: true
     defer-datasource-initialization: true
@@ -20,14 +20,3 @@ spring:
     username: sa
     password:
 
-  redis:
-    host: localhost
-    port: 6379
-
-  jwt:
-    secret: ZGF5b25lLXNwcmluZy1ib290LWRpdmlkZW5kLXByb2plY3QtdHV0b3JpYWwtand0LXNlY3JldC1rZXkK
-
-
-scheduler:
-  scrap:
-    yahoo: "0 0 0 * * *"
