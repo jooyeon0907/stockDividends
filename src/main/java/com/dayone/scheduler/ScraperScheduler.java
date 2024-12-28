@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -24,9 +25,26 @@ public class ScraperScheduler {
 
 	private final YahooFinanceScraper yahooFinanceScraper;
 
+	@Scheduled(fixedDelay = 1000)
+	public void test1() throws InterruptedException {
+		Thread.sleep(1000);
+		System.out.println(Thread.currentThread().getName() + " -> 테스트 1 : " + LocalDateTime.now());
+	}
+
+	@Scheduled(fixedDelay = 1000)
+	public void test2() {
+		System.out.println(Thread.currentThread().getName() + " -> 테스트 2 : " + LocalDateTime.now());
+	}
+	// Thread pool 로 관리 전에는 test1() 과 test2() 가 같은 스레드에서 관리가 되어 test2는 test1 작업 10초가 지난 뒤에 수행이 되었는데,
+	// Thread pool 적용 후에는 다른 스레드로 관리되어 각각 실행이 된 것을 확인
+
+
 	// 일저 주기마다 수행
-	@Scheduled(cron = "0 0 0 * * *")
+//	@Scheduled(cron = "${scheduler.scrap.yahoo}")
+		// 서비스 제공 증에 변경될 수 있는 여지가 있는 스케쥴러 값 같은 경우는 config  설정 파일에 관리하는 것이 편리
+			// 그렇지 않으면 스케쥴 값이 바뀔 때마다 빌드 및 배포 과정을 거쳐야하는 번거로움이 생김
 	public void yahooFinanceScheduling() {
+		log.info("scraping scheduler is started");
 		// 저장된 회사 목록을 조회
 		List<CompanyEntity> companies = this.companyRepository.findAll();
 
@@ -60,5 +78,10 @@ public class ScraperScheduler {
 			}
 		}
 	}
+
+
+
+
+
 
 }
