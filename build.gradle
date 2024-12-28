@@ -16,11 +16,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis' // redis 사용
-//    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
 
     implementation group: 'com.h2database', name: 'h2', version: '1.4.200'
     implementation group: 'org.jsoup', name: 'jsoup', version: '1.7.2'
-    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1' // 회원가입 기능에 사용
     implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.3' // 자동완성 기능에 사용
 
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.22'

@@ -2,7 +2,7 @@ package com.dayone.scheduler;
 
 import com.dayone.entity.CompanyEntity;
 import com.dayone.entity.DividendEntity;
-import com.dayone.model.CacheKey;
+import com.dayone.model.constants.CacheKey;
 import com.dayone.model.Company;
 import com.dayone.model.ScrapedResult;
 import com.dayone.persist.CompanyRepository;
@@ -15,7 +15,6 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j

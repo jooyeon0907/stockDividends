@@ -2,7 +2,7 @@ package com.dayone.service;
 
 import com.dayone.entity.CompanyEntity;
 import com.dayone.entity.DividendEntity;
-import com.dayone.model.CacheKey;
+import com.dayone.model.constants.CacheKey;
 import com.dayone.model.Company;
 import com.dayone.model.Dividend;
 import com.dayone.model.ScrapedResult;

@@ -1,4 +1,4 @@
-package com.dayone.model;
+package com.dayone.model.constants;
 
 public class CacheKey {
 
