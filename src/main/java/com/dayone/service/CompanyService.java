@@ -8,7 +8,9 @@ import com.dayone.persist.CompanyRepository;
 import com.dayone.persist.DividendRepository;
 import com.dayone.scraper.Scraper;
 import lombok.AllArgsConstructor;
+import org.apache.commons.collections4.Trie;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -16,9 +18,11 @@ import org.springframework.util.ObjectUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+@Service // 싱글톤으로 관리됨
 @AllArgsConstructor
 public class CompanyService {
+	private final Trie trie;
+
 	private final Scraper yahooFinanceScraper;
 
 	private final CompanyRepository companyRepository;
@@ -55,4 +59,19 @@ public class CompanyService {
 
 		return company;
 	}
+
+	public void addAutoCompleteKeyword(String keyword) {
+		this.trie.put(keyword, null);
+	}
+
+	public List<String> autoComplete(String keyword) {
+		return (List<String>) this.trie.prefixMap(keyword).keySet()
+				.stream().collect(Collectors.toList());
+		// page 나 limit 으로 회사명 개수를 조절 할 수 있음
+	}
+
+	public void deleteAutoCompleteKeyword(String keyword) {
+		this.trie.remove(keyword);
+	}
+
 }
