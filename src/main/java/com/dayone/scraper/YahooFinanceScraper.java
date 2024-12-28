@@ -56,12 +56,8 @@ public class YahooFinanceScraper implements Scraper {
 					throw new RuntimeException("Unexpected Month enum value -> " + splits[0]);
 				}
 
-				dividends.add(
-							Dividend.builder()
-							.date(LocalDateTime.of(year, month, day, 0, 0))
-							.dividend(dividend)
-							.build()
-				);
+				dividends.add(new Dividend(LocalDateTime.of(year, month, day, 0, 0), dividend));
+
             }
 			scrapResult.setDividends(dividends);
 
@@ -73,23 +69,17 @@ public class YahooFinanceScraper implements Scraper {
 	}
 
 	@Override
-	public Company  scrapCompanyByTicker(String ticker) {
+	public Company scrapCompanyByTicker(String ticker) {
 		String url = String.format(SUMMARY_URL, ticker, ticker);
 
 		try {
 			Document document = Jsoup.connect(url)
                         .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
-                        .get();
+                        .get()  ;
             Elements titleEle = document.getElementsByAttributeValue("class", "yf-xxbei9");
-//			String title = titleEle.text().split(" - ")[1].trim();
-			String title = titleEle.text();
-			System.out.println("title : "  +title);
+			String title = titleEle.text().split("\\(")[0].trim();
 
-
-			return Company.builder()
-							.ticker(ticker)
-							.name(title)
-							.build();
+			return new Company(ticker, title);
 
 		} catch (IOException e) {
 			e.printStackTrace();
