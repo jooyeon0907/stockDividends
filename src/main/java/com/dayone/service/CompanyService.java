@@ -60,6 +60,15 @@ public class CompanyService {
 		return company;
 	}
 
+	public List<String> getCompanyNamesByKeyword(String keyword) {
+		Pageable limit = PageRequest.of(0, 10); // 한번에 10개씩 가져올 수 있도록 페이징
+		Page<CompanyEntity> companyEntities = this.companyRepository.findByNameStartingWithIgnoreCase(keyword, limit);
+
+		return companyEntities.stream()
+								.map(e -> e.getName())
+								.collect(Collectors.toList());
+	}
+
 	public void addAutoCompleteKeyword(String keyword) {
 		this.trie.put(keyword, null);
 	}
