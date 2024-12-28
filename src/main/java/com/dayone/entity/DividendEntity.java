@@ -5,16 +5,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity(name = "DIVIDEND")
 @Getter
 @ToString
 @NoArgsConstructor
+@Table(
+		uniqueConstraints = {
+				@UniqueConstraint(
+						columnNames = {"companyId", "date"} // 중복된 배당금 정보 저장을 막기 위함
+				)
+		}
+)
 public class DividendEntity {
 
 	@Id
