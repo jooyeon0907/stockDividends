@@ -2,7 +2,9 @@ package com.dayone.service;
 
 import com.dayone.entity.CompanyEntity;
 import com.dayone.entity.DividendEntity;
+import com.dayone.exception.AlreadyTickerException;
 import com.dayone.exception.NoCompanyException;
+import com.dayone.exception.NoTickerException;
 import com.dayone.model.Company;
 import com.dayone.model.ScrapedResult;
 import com.dayone.persist.CompanyRepository;
@@ -32,7 +34,7 @@ public class CompanyService {
 	public Company save(String ticker) {
 		boolean exists = this.companyRepository.existsByTicker(ticker);
 		if (exists) {
-			throw new RuntimeException("already exists ticker -> " + ticker);
+			throw new AlreadyTickerException();
 		}
 		return this.storeCompanyAndDividend(ticker);
 	}
@@ -45,7 +47,7 @@ public class CompanyService {
 		// ticker 를 기준으로 회사를 스크래핑
 		Company company = this.yahooFinanceScraper.scrapCompanyByTicker(ticker);
 		if (ObjectUtils.isEmpty(company)) {
-			throw new RuntimeException("failed to scrap ticker -> "+ ticker);
+			throw new NoTickerException();
 		}
 
 		// 해당 회사가 존재할 경우, 회사의 배당금 정보를 스크래핑
